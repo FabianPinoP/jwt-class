@@ -17,12 +17,12 @@ const isLogin = async (req, res, next) => {
 };
 
 const validateToken = async (token) => {
-  return jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-    if (err) {
-      throw createError("auth_04", "token no valido");
-    }
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     return decoded;
-  });
+  } catch (err) {
+    throw createError("auth_04", "Token no válido");
+  }
 };
 
 const validateHeaders = (req) => {
